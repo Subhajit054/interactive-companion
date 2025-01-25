@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f9fafb;
+            color: #333;
+            font-family: 'Inter', sans-serif;
+        }
+        .chat-bubble {
+            padding: 10px 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+        .chat-bubble.user {
+            background-color: #0078ff;
+            color: #fff;
+            align-self: flex-end;
+        }
+        .chat-bubble.companion {
+            background-color: #e0e0e0;
+            color: #333;
+            align-self: flex-start;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <header class="text-center py-8">
+        <h1 class="text-3xl font-bold">Chat with Your Companion</h1>
+    </header>
+    <main class="max-w-4xl mx-auto p-4">
+        <div id="character-info" class="text-center mb-8">
+            <!-- Character Info will be dynamically loaded -->
+        </div>
+        <div id="chat-box" class="bg-white rounded-lg shadow-md p-4 h-80 overflow-y-scroll flex flex-col chat-container">
+            <!-- Chat messages will appear here -->
+        </div>
+        <div class="mt-4 flex">
+            <input id="chat-input" type="text" class="flex-1 border rounded-lg p-2" placeholder="Type your message...">
+            <button id="send-btn" class="ml-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Send</button>
+        </div>
+    </main>
+    <script src="./assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Companion</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-8 bg-blue-500 text-white">
+        <h1 class="text-4xl font-bold">Choose Your Companion</h1>
+    </header>
+    <main class="max-w-4xl mx-auto p-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <!-- Male Character -->
+            <div class="text-center p-4 border rounded-lg shadow-lg">
+                <img src="./assets/images/male.png" alt="Male Character" class="w-40 h-40 mx-auto">
+                <h2 class="text-xl font-semibold mt-4">Male Companion</h2>
+                <button onclick="selectCharacter('male')" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                    Choose
+                </button>
+            </div>
+            <!-- Female Character -->
+            <div class="text-center p-4 border rounded-lg shadow-lg">
+                <img src="./assets/images/female.png" alt="Female Character" class="w-40 h-40 mx-auto">
+                <h2 class="text-xl font-semibold mt-4">Female Companion</h2>
+                <button onclick="selectCharacter('female')" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                    Choose
+                </button>
+            </div>
+        </div>
+    </main>
+    <script>
+        function selectCharacter(character) {
+            // Store the selected character in session storage
+            sessionStorage.setItem("selectedCharacter", character);
+
+            // Redirect to chat.html
+            window.location.href = "chat.html";
+        }
+    </script>
+</body>
+</html>

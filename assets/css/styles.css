@@ -1,0 +1,31 @@
+body {
+    background: #f9fafb;
+    color: #333;
+    font-family: 'Inter', sans-serif;
+}
+
+.chat-bubble {
+    padding: 10px 15px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.chat-bubble.user {
+    background-color: #0078ff;
+    color: #fff;
+    align-self: flex-end;
+}
+
+.chat-bubble.companion {
+    background-color: #e0e0e0;
+    color: #333;
+    align-self: flex-start;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
