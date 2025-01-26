@@ -1,56 +1,58 @@
-let selectedCharacter = sessionStorage.getItem('selectedCharacter') || 'male'; // Default to male if no character selected
+const API_KEY = "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";
+const API_URL = "https://api.openai.com/v1/completions";
 
-// Load character info based on the selected character
-function loadCharacterInfo() {
-    const characterInfo = document.getElementById('character-info');
-    const characterName = selectedCharacter === 'male' ? 'John' : 'Jane';
-    characterInfo.innerHTML = `<h2 class="text-2xl font-semibold">${characterName}</h2><p class="text-gray-600">Your companion is here to talk and relieve stress.</p>`;
-}
+const chatInput = document.getElementById("chat-input");
+const chatBox = document.getElementById("chat-box");
+const sendBtn = document.getElementById("send-btn");
 
-// Append user message
-function appendUserMessage(message) {
-    const chatBox = document.getElementById('chat-box');
-    const userMessage = document.createElement('div');
-    userMessage.classList.add('chat-bubble', 'user');
-    userMessage.textContent = message;
-    chatBox.appendChild(userMessage);
-    chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
-}
+sendBtn.addEventListener("click", sendMessage);
 
-// Append companion's message
-function appendCompanionMessage(message) {
-    const chatBox = document.getElementById('chat-box');
-    const companionMessage = document.createElement('div');
-    companionMessage.classList.add('chat-bubble', 'companion');
-    companionMessage.textContent = message;
-    chatBox.appendChild(companionMessage);
-    chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
-}
+async function sendMessage() {
+    const userMessage = chatInput.value.trim();
 
-// Simulate companion response
-function simulateCompanionResponse(userMessage) {
-    const responses = [
-        "I'm here to listen. Tell me more.",
-        "That sounds tough. I'm here for you.",
-        "Take a deep breath. Things will get better.",
-        "It's okay, you're doing great!",
-    ];
-    const response = responses[Math.floor(Math.random() * responses.length)];
-    appendCompanionMessage(response);
-}
+    if (!userMessage) return;
 
-// Send message on button click
-document.getElementById('send-btn').addEventListener('click', function () {
-    const userInput = document.getElementById('chat-input').value;
-    if (userInput.trim()) {
-        appendUserMessage(userInput);
-        simulateCompanionResponse(userInput);
-        document.getElementById('chat-input').value = ''; // Clear input
+    displayMessage(userMessage, "user");
+
+    chatInput.value = "";
+
+    const response = await getAIResponse(userMessage);
+
+    if (response) {
+        displayMessage(response, "companion");
+    } else {
+        displayMessage("Sorry, I couldn't process your request. Please try again.", "companion");
     }
-});
+}
 
-// Load character info and previous messages when the page loads
-window.onload = function () {
-    loadCharacterInfo();
-};
+function displayMessage(message, sender) {
+    const bubble = document.createElement("div");
+    bubble.classList.add("chat-bubble", sender);
+    bubble.textContent = message;
+    chatBox.appendChild(bubble);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
 
+async function getAIResponse(message) {
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${API_KEY}`
+            },
+            body: JSON.stringify({
+                model: "text-davinci-003",
+                prompt: `You are a friendly, supportive companion. Respond to: ${message}`,
+                max_tokens: 150,
+                temperature: 0.7
+            })
+        });
+
+        const data = await response.json();
+        return data.choices[0].text.trim();
+    } catch (error) {
+        console.error("Error fetching AI response:", error);
+        return null;
+    }
+}
